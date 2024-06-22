@@ -58,11 +58,29 @@ object InvoiceQueryService {
         // language=postgresql
         val sql =
             """
-            """.trimIndent()
-
+            SELECT
+                i.invoice_uuid,
+                i.tenant_name_id,
+                i.recipient_uuid,
+                r.full_name as recipient_name,
+                i.invoice_amount,
+                i.supplier_uuid,
+                i.supplier_name,
+                i.payment_deadline,
+                i.registered_by,
+                i.registered_at
+            FROM
+                invoice i
+            INNER JOIN recipient r ON i.recipient_uuid = r.recipient_uuid
+            WHERE
+                i.tenant_name_id = :tenantNameId AND
+                i.recipient_uuid = :recipientUUID
+                """.trimIndent()
         withHandle(tenantNameId) { handle ->
             val result =
                 handle.createQuery(sql)
+                    .bind("tenantNameId", tenantNameId.value)
+                    .bind("recipientUUID", recipientUUID.value)
                     .mapTo(InvoiceRow::class.java)
                     .list()
             return result.map { InvoiceQueryResult.fromRow(it) }
