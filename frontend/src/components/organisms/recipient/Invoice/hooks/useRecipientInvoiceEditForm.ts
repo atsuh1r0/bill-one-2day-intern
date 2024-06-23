@@ -13,13 +13,29 @@ export const useRecipientInvoiceEditForm = (
   submit: (invoice: RecipientInvoiceEditFormValues) => Promise<void>,
 ) => {
   const { values, getInputProps, onSubmit } =
-    useForm<RecipientInvoiceEditFormValues>();
+    useForm<RecipientInvoiceEditFormValues>(
+      {
+        initialValues: {
+          invoiceUUID: invoice.invoiceUUID,
+          invoiceAmount: invoice.amount,
+          supplierUUID: invoice.supplierUUID,
+          paymentDeadline: invoice.paymentDeadline,
+        },
+      },
+    );
 
-  const handleSubmit = () => {};
+  const handleSubmit = () => {
+    submit({
+      invoiceUUID: invoice.invoiceUUID,
+      invoiceAmount: values.invoiceAmount,
+      supplierUUID: values.supplierUUID,
+      paymentDeadline: values.paymentDeadline,
+    });
+  };
 
   return {
     values,
-    submit: handleSubmit,
+    submit: onSubmit(handleSubmit),
     getInputProps,
   };
 };
