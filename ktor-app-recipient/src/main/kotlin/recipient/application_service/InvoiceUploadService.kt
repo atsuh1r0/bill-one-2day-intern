@@ -17,10 +17,15 @@ object InvoiceUploadService {
         domainEventContext: DomainEventContext,
     ): ApplicationResult {
         //  TODO: 課題4
-        //  val invoice =
+         val invoice = Invoice(
+            InvoiceUUID(UUID.randomUUID().toString()),
+            recipientUUID,
+            InvoiceFile(multipartData),
+            InvoiceStatus.UPLOADED
+        )
 
         return runInTransaction(tenantNameId, domainEventContext) { handle ->
-            //  InvoiceRepository.save(invoice, handle)
+            InvoiceRepository.save(invoice, handle)
             ApplicationResult.Success
         }
     }
