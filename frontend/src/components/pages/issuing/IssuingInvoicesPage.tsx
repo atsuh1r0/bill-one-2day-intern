@@ -25,6 +25,11 @@ export const IssuingInvoicesPage: FC = () => {
         <h2>発行済請求書一覧</h2>
         <Flex>
           <div style={{ width: "55%", marginRight: "1%" }}>
+            <IssuingInvoicesTable
+              data={useIssuedInvoice()}
+              handleChangeInvoice={handleChangeInvoice}
+              selectedInvoice={selectedInvoice}
+              />
           </div>
           <RecipientInvoicePdfArea
             invoiceResource={selectedInvoice?.url}
