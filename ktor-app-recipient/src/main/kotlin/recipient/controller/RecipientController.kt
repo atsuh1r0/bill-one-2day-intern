@@ -29,7 +29,8 @@ class RecipientResource(
 fun Route.recipientController() {
     get<RecipientsResource> {
         val principal = call.principal()
-        // TODO: 課題1
+        val result = RecipientQueryService.getRecipients(TenantNameId(principal.tenantNameId))
+        call.respond(result)
     }
 
     get<RecipientsResourceWithoutLogin> {

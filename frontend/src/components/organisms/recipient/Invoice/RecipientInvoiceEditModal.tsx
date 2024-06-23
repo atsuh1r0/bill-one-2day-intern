@@ -35,7 +35,16 @@ export const RecipientInvoiceEditModal: FC<RecipientInvoiceEditModalProps> = ({
   //  TODO(FE): 課題2
   const handleSubmit = async (values: RecipientInvoiceEditFormValues) => {
     try {
-
+      await update({
+        invoiceUUID: invoice.invoiceUUID,
+        invoiceAmount: values.invoiceAmount,
+        paymentDeadline: values.paymentDeadline,
+        supplierUUID: values.supplierUUID,
+      });
+      toast.success("請求書を更新しました。", {
+        position: "bottom-left",
+      });
+      onClose();
     } catch (e) {
       console.error("Error during submit:", e); // エラー詳細をログに出力
       toast.error("請求書の更新に失敗しました。", {
@@ -57,7 +66,7 @@ export const RecipientInvoiceEditModal: FC<RecipientInvoiceEditModalProps> = ({
           <Modal.Title>請求書の編集</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <form>
+          <form onSubmit={submit}>
             <div>
               <label htmlFor={"invoiceAmount"}>請求金額</label>
               <NumberInput

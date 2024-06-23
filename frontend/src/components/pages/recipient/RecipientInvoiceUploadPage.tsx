@@ -11,6 +11,10 @@ export const RecipientInvoiceUploadPage: FC = () => {
 
   const dropFile = (file: File) => {
     //  TODO(FE): 課題3
+    // ファイルがドロップされた時の処理を実装
+    // 請求書をアップロードする処理を実装
+    console.log("file dropped", file);
+    setUrlString(URL.createObjectURL(file));
   };
   return (
     <>
